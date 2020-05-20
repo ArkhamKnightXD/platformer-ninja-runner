@@ -5,131 +5,125 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    const float X_MIN_LIMIT = -8.45f;
+    float lastHorizontalAxis;
 
-    const float X_MAX_LIMIT = 147.6f;
+    float lastVerticalAxis;
 
-    float _lastHorizontalAxis;
+    Animator animator;
 
-    float _lastVerticalAxis;
+    float speedX = 10f;
 
-    Animator _animator;
+    Vector3 deltaPosition;
 
-    float _speedX = 10f;
-
-    Vector3 _deltaPosition;
-
-    Vector3 _characterScale;
+    Vector3 characterScale;
     
     GameController gameController;
 
-    Vector3 _heightPosition;
+    bool jumping = false;
 
-    bool _canJump;
+    float jumpTime;
+    
+    float maxJumpingTime = 0.7f;
 
+    bool canJump;
 
     float horizontalAxis;
 
-    private void Awake()
-    {
-        _animator = GetComponent<Animator>();
+    Rigidbody2D _rigidbody;
 
-        gameController = GameObject.Find("GlobalScriptsText").GetComponent<GameController>();
-
-
-    }
 
     void Start()
     {
+        animator = GetComponent<Animator>();
 
+        _rigidbody = GetComponent<Rigidbody2D>();
+
+        gameController = GameObject.Find("GlobalScriptsText").GetComponent<GameController>();
     }
 
     
     void Update()
     {
-
-         // Aqui basicamente consigo la distancia a la que se debe mover mi objeto
-        _deltaPosition = new Vector3(Input.GetAxis("Horizontal"),0) * _speedX * Time.deltaTime;
+        horizontalAxis = Input.GetAxis("Horizontal");
 
 
-        gameObject.transform.Translate(_deltaPosition);
-
-        gameObject.transform.position = new Vector3(Mathf.Clamp(gameObject.transform.position.x, X_MIN_LIMIT, X_MAX_LIMIT),gameObject.transform.position.y,  gameObject.transform.position.z);
-
-
-//Para poder rotar el personaje
-        _characterScale = transform.localScale;
-
-       if (Input.GetAxis("Horizontal") < 0)
+        if (gameObject.tag != "Finish")
         {
-            _characterScale.x = -1;
+
+            CharacterMovement();
+
+            FlipTheCharacter();
+
+            CharacterJump();            
         }
-
-        if (Input.GetAxis("Horizontal") > 0)
-        {
-            _characterScale.x = 1;
-        }
-
-        //tiene error en esta linea de codigo
-        transform.localScale =_characterScale;
-
-        
-
-        // Aqui obtenemos la ultima posicion del horizontal axis y se la mandamos a animator
-        if (_lastHorizontalAxis != Input.GetAxis("Horizontal"))
-        {
-            _lastHorizontalAxis = Input.GetAxis("Horizontal");
-
-            _animator.SetFloat("HorizontalAxis", _lastHorizontalAxis);            
-        }
-
-        
-
-
-
-        if (_lastVerticalAxis != Input.GetAxis("Vertical"))
-        {
-            _lastVerticalAxis = Input.GetAxis("Vertical");
-
-            _animator.SetFloat("VerticalAxis", _lastVerticalAxis);            
-        }
-
-        ManageJump();
-
 
     }
 
 
-     // Funcion para hacer saltar al personaje 
+    void CharacterMovement()
+    {
+        deltaPosition = new Vector3(horizontalAxis,0) * speedX * Time.deltaTime;
 
-    void ManageJump()
-     {
+        gameObject.transform.Translate(deltaPosition);
 
-
-        if (gameObject.transform.position.y < 5) {
-
-            _canJump = true;
-        }
-
-
-        if (Input.GetKey("up") && _canJump && gameObject.transform.position.y < 5)
+        // Aqui obtenemos la ultima posicion del horizontal axis y se la mandamos a animator
+        if (lastHorizontalAxis != horizontalAxis)
         {
+            lastHorizontalAxis = horizontalAxis;
 
-            gameObject.transform.Translate(0, 7 * Time.deltaTime, 0);
-
+            animator.SetFloat("HorizontalAxis", lastHorizontalAxis);            
         }
 
-        else {
-
-            _canJump = false;
+    }
 
 
-            if (gameObject.transform.position.y > 7) {
+    void FlipTheCharacter()
+    {
+        characterScale = transform.localScale;
 
-                gameObject.transform.Translate(0, 6 * Time.deltaTime, 0);
-            }
-
+       if (horizontalAxis < 0)
+        {
+            characterScale.x = -1;
         }
+
+        if (horizontalAxis > 0)
+        {
+            characterScale.x = 1;
+        }
+
+        transform.localScale =characterScale;
+
+    }
+
+
+    void CharacterJump()
+    {
+        if (Input.GetButton("Jump") && !jumping)
+        {
+            jumpTime = 0f;
+
+            _rigidbody.AddForce(transform.up * 250f);
+
+            animator.SetBool("Jump", true);
+
+            jumping = true;
+
+            AudioManager.Instance.PlaySoundEffect(AudioManager.SoundEffect.PlayerJump);
+        }
+
+        if (jumping)
+        {
+            jumpTime += Time.deltaTime;
+
+            if (jumpTime > maxJumpingTime)
+            {
+                jumping = false;
+
+                animator.SetBool("Jump", false);
+
+            }   
+        }
+        
     }
 
 }
