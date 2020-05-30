@@ -15,7 +15,7 @@ public class ItemController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
 
-       if (other.gameObject.CompareTag("Player") && gameObject.CompareTag("Coin"))
+       if ((other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("InvulnerablePlayer"))  && gameObject.CompareTag("Coin"))
        {
 
             Destroy(gameObject);
@@ -26,7 +26,7 @@ public class ItemController : MonoBehaviour
        }
 
 
-       if (other.gameObject.CompareTag("Player") && gameObject.CompareTag("Fruit"))
+       if ((other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("InvulnerablePlayer")) && gameObject.CompareTag("Fruit"))
        {
 
             Destroy(gameObject);
@@ -36,6 +36,19 @@ public class ItemController : MonoBehaviour
             gameController.IncrementLives();
 
             AudioManager.Instance.PlaySoundEffect(AudioManager.SoundEffect.FruitGet);   
+       }
+
+
+       if (other.gameObject.CompareTag("Player") && gameObject.CompareTag("InvulnerableFruit"))
+       {
+
+            Destroy(gameObject);
+
+            gameController.IncrementScore();
+
+            other.gameObject.tag = "InvulnerablePlayer";
+
+            AudioManager.Instance.PlaySoundEffect(AudioManager.SoundEffect.Invulnerable);   
        }
 
 

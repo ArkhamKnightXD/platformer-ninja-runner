@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
     float jumpTime;
     
-    float maxJumpingTime = 0.7f;
+    float maxJumpingTime = 1f;
 
     bool canJump;
 
@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
         {
             jumpTime = 0f;
 
-            _rigidbody.AddForce(transform.up * 250f);
+            _rigidbody.AddForce(transform.up * 300f);
 
             animator.SetBool("Jump", true);
 

@@ -26,6 +26,12 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
+        EnemyPatrolMovement();
+    }
+
+
+    private void EnemyPatrolMovement()
+    {
         gameObject.transform.Translate(Vector2.right * Speed * Time.deltaTime);
 
         groundInformation = Physics2D.Raycast(groundDetection.position,Vector2.down,distance);
@@ -48,16 +54,21 @@ public class EnemyController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other){
 
-
-       if (other.gameObject.tag.ToString().Contains("Player"))
+       if (other.gameObject.CompareTag("Player"))
        {
-           
 
             gameController.DecrementLives();
 
             AudioManager.Instance.PlaySoundEffect(AudioManager.SoundEffect.DamageTaken);   
        }
+       
 
+       if (other.gameObject.CompareTag("InvulnerablePlayer"))
+       {
+           Destroy(gameObject);
+
+           AudioManager.Instance.PlaySoundEffect(AudioManager.SoundEffect.FruitGet);
+       }
         
     }
 }

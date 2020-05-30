@@ -12,6 +12,8 @@ public class AudioManager : MonoBehaviour
 
     public AudioSource FruitGet;
 
+    public AudioSource Invulnerable;
+
     public AudioSource PlayerJump;
 
     public AudioSource GameOver;
@@ -28,6 +30,7 @@ public class AudioManager : MonoBehaviour
         GameSong,
         DamageTaken,
         FruitGet,
+        Invulnerable,
         PlayerJump,
         Win,
         GameOver
@@ -47,6 +50,11 @@ public class AudioManager : MonoBehaviour
 
         case SoundEffect.FruitGet:
             FruitGet.Play();
+            break;
+
+        case SoundEffect.Invulnerable:
+            Invulnerable.Play();
+            GameSong.Stop();
             break;
 
         case SoundEffect.PlayerJump:
