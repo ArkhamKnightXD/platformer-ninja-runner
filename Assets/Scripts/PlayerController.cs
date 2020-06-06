@@ -4,32 +4,23 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
-    float lastHorizontalAxis;
-
-    float lastVerticalAxis;
-
     Animator animator;
 
-    float speedX = 10f;
+    Rigidbody2D _rigidbody;
 
     Vector3 deltaPosition;
 
     Vector3 characterScale;
-    
-    GameController gameController;
 
     bool jumping = false;
 
     float jumpTime;
     
-    float maxJumpingTime = 1f;
-
-    bool canJump;
+    float maxJumpingTime = 1.25f;
 
     float horizontalAxis;
 
-    Rigidbody2D _rigidbody;
+    float speedX = 10f;
 
 
     void Start()
@@ -38,15 +29,11 @@ public class PlayerController : MonoBehaviour
 
         _rigidbody = GetComponent<Rigidbody2D>();
 
-        gameController = GameObject.Find("GlobalScriptsText").GetComponent<GameController>();
     }
 
     
     void Update()
     {
-        horizontalAxis = Input.GetAxis("Horizontal");
-
-
         if (gameObject.tag != "Finish")
         {
 
@@ -57,22 +44,23 @@ public class PlayerController : MonoBehaviour
             CharacterJump();            
         }
 
+        if (gameObject.tag == "DeadPlayer")
+        {
+            CharacterIsDead();
+        }
+
     }
 
 
     void CharacterMovement()
     {
+        horizontalAxis = Input.GetAxis("Horizontal");
+
         deltaPosition = new Vector3(horizontalAxis,0) * speedX * Time.deltaTime;
 
         gameObject.transform.Translate(deltaPosition);
 
-        // Aqui obtenemos la ultima posicion del horizontal axis y se la mandamos a animator
-        if (lastHorizontalAxis != horizontalAxis)
-        {
-            lastHorizontalAxis = horizontalAxis;
-
-            animator.SetFloat("HorizontalAxis", lastHorizontalAxis);            
-        }
+        animator.SetFloat("HorizontalAxis", Mathf.Abs(horizontalAxis));            
 
     }
 
@@ -92,9 +80,14 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.localScale =characterScale;
-
     }
 
+
+    // Lograr hacer funcionar bien esta animacion
+    void CharacterIsDead()
+    {
+        animator.SetBool("IsDead", true);
+    }
 
     void CharacterJump()
     {
@@ -122,8 +115,6 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("Jump", false);
 
             }   
-        }
-        
+        }   
     }
-
 }

@@ -22,18 +22,17 @@ public class GameController : MonoBehaviour
 
     public GameObject WinText;
 
+    public GameObject Player;
+
 
     void Start()
     {
         AudioManager.Instance.PlaySoundEffect(AudioManager.SoundEffect.GameSong);
 
-        //definiendo los valores iniciales del score y de las vidas
         CurrentScore = 0;
         CurrentLives = 1;
         CurrentTime = 240;
 
-
-        // Buscando los distintos objetos por su nombre para poder utilizarlos ene sta clase
         LivesText = GameObject.Find("LivesText").GetComponent<TextMesh>();
         TimerText = GameObject.Find("TimerText").GetComponent<TextMesh>();
         GameOverText = GameObject.Find("GameOverText");
@@ -49,9 +48,7 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-       
         DecrementTime();
-    
     }
 
      
@@ -68,8 +65,6 @@ public class GameController : MonoBehaviour
         TimerText.text = CurrentTime.ToString("0");
 
 
-        //El send score y el gameover sound dan error debido a que esta funcion se llama 60 veces por segundo
-
         if (CurrentTime == 0)
         {
 
@@ -80,10 +75,11 @@ public class GameController : MonoBehaviour
             RetryText.SetActive(true);
 
            // AudioManager.Instance.PlaySoundEffect(AudioManager.SoundEffect.GameOver);
+
+           Player.gameObject.tag = "DeadPlayer";
             
         }
        
-
         return CurrentTime;
     }
 
@@ -126,9 +122,7 @@ public class GameController : MonoBehaviour
     }
 
     
-     //Esta funcion se encarga de disminuir las vidas en el juego de 1 en 1, no toma parametros y retorna un entero
-    //que es la vida actual, ademas de que cuando las vidas llegan a 0 se pierde automaticamente y al mismo tiempo
-    // crea un hilo para que se mande el score tan pronto se acabe el juego y por ultimo toca un sonido de game over
+
     public int DecrementLives()
     {
         CurrentLives = CurrentLives > 0 ? CurrentLives - 1 : 0;
@@ -170,7 +164,7 @@ public class GameController : MonoBehaviour
 
     }
 
-    // funcion encargada de mandar el score a webservice client, no toma parametros esta funcion
+
     IEnumerator SendScore()
     {
         yield return gameObject.GetComponent<WebServiceClient>().SendWebRequest(CurrentScore);

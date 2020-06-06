@@ -9,6 +9,7 @@ TagManager:
   - FinalFlag
   - InvulnerableFruit
   - InvulnerablePlayer
+  - DeadPlayer
   layers:
   - Default
   - TransparentFX
