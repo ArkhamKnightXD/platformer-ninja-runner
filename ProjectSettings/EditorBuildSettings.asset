@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: c1e771a3551a1b3458553f84e2e3ae9b
+  - enabled: 1
+    path: Assets/Scenes/NinjaRunner.unity
+    guid: b1e700646bb3a184ebe521987b4bad10
   m_configObjects: {}

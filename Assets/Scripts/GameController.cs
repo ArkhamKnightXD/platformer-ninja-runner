@@ -111,7 +111,7 @@ public class GameController : MonoBehaviour
     public void Win()
     {
 
-        StartCoroutine("SendScore");
+      //  StartCoroutine("SendScore");
 
         WinText.SetActive(true);
 
@@ -133,7 +133,7 @@ public class GameController : MonoBehaviour
         if (CurrentLives == 0)
         {
 
-            StartCoroutine("SendScore");
+          //  StartCoroutine("SendScore");
 
             GameOverText.SetActive(true);
 
@@ -141,6 +141,7 @@ public class GameController : MonoBehaviour
 
             AudioManager.Instance.PlaySoundEffect(AudioManager.SoundEffect.GameOver);
             
+            Player.gameObject.tag = "DeadPlayer";
         }
 
         return CurrentLives;
@@ -152,7 +153,7 @@ public class GameController : MonoBehaviour
         CurrentLives = 0;
         LivesText.text = $"Lives: {CurrentLives}"; 
 
-        StartCoroutine("SendScore");
+    //    StartCoroutine("SendScore");
 
         GameOverText.SetActive(true);
 

@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
-        if (gameObject.tag != "Finish")
+        if (gameObject.tag != "Finish" && gameObject.tag != "DeadPlayer")
         {
 
             CharacterMovement();
@@ -48,7 +48,6 @@ public class PlayerController : MonoBehaviour
         {
             CharacterIsDead();
         }
-
     }
 
 
@@ -83,11 +82,12 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    // Lograr hacer funcionar bien esta animacion
+
     void CharacterIsDead()
     {
         animator.SetBool("IsDead", true);
     }
+
 
     void CharacterJump()
     {
@@ -103,6 +103,7 @@ public class PlayerController : MonoBehaviour
 
             AudioManager.Instance.PlaySoundEffect(AudioManager.SoundEffect.PlayerJump);
         }
+
 
         if (jumping)
         {
