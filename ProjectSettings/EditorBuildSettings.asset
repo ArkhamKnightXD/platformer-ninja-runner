@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: c1e771a3551a1b3458553f84e2e3ae9b
   - enabled: 1
+    path: Assets/Scenes/LevelSelect.unity
+    guid: d9652eefad9414f43b0865943a321275
+  - enabled: 1
     path: Assets/Scenes/NinjaRunner.unity
     guid: b1e700646bb3a184ebe521987b4bad10
+  - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: 4f0d77e019f197f44813a20445fdbb2f
   m_configObjects: {}

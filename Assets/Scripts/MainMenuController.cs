@@ -5,6 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
+
+
+    void Start()
+    {
+        AudioManager.Instance.PlaySoundEffect(AudioManager.SoundEffect.Menu);
+    }
     public void PlayGame()
     {
         // Esto cargara la escena cuyo index en el build se uno mas que el menu 

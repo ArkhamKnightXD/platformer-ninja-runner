@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
 
     float speedX = 10f;
 
+    public bool isGrounded;
+
 
     void Start()
     {
@@ -68,7 +70,7 @@ public class PlayerController : MonoBehaviour
     {
         characterScale = transform.localScale;
 
-       if (horizontalAxis < 0)
+        if (horizontalAxis < 0)
         {
             characterScale.x = -1;
         }
@@ -78,9 +80,8 @@ public class PlayerController : MonoBehaviour
             characterScale.x = 1;
         }
 
-        transform.localScale =characterScale;
+        transform.localScale = characterScale;
     }
-
 
 
     void CharacterIsDead()

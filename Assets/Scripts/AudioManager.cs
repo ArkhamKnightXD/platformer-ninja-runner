@@ -20,6 +20,10 @@ public class AudioManager : MonoBehaviour
 
     public AudioSource Win;
 
+    public AudioSource Menu;
+
+    public AudioSource LevelSelect;
+
     private void Awake()
     {
         Instance = this;
@@ -33,6 +37,8 @@ public class AudioManager : MonoBehaviour
         Invulnerable,
         PlayerJump,
         Win,
+        Menu,
+        LevelSelect,
         GameOver
     }
 
@@ -69,6 +75,14 @@ public class AudioManager : MonoBehaviour
         case SoundEffect.GameOver:
             GameSong.Stop();
             GameOver.Play();
+            break;
+
+        case SoundEffect.Menu:
+            Menu.Play();
+            break;
+        
+        case SoundEffect.LevelSelect:
+            LevelSelect.Play();
             break;
             
         }
