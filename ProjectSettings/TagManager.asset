@@ -12,6 +12,7 @@ TagManager:
   - DeadPlayer
   - Ground
   - Platform
+  - Falling
   layers:
   - Default
   - TransparentFX

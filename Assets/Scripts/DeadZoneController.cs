@@ -17,12 +17,14 @@ public class DeadZoneController : MonoBehaviour
 //que cuando haya collision suceda lo  que se realiza en esta funcion.
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag("Player"))
+        {
+            //Destroy, destruye un objeto, osea lo desaparece del juego
+            gameController.GameOverByFall();
+            AudioManager.Instance.PlaySoundEffect(AudioManager.SoundEffect.GameOver);    
+        }
         
-        //Destroy, destruye un objeto, osea lo desaparece del juego
         Destroy(other.gameObject);
-        gameController.GameOverByFall();
-
-        AudioManager.Instance.PlaySoundEffect(AudioManager.SoundEffect.GameOver);
     }
 }
 
